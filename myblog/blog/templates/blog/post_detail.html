@@ -1,0 +1,19 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+    <h1>{{ post.title }}</h1>
+    <p>Por: {{ post.author }}</p>
+    <p>{{ post.content }}</p>
+    <h3>Comentarios</h3>
+    {% for comment in post.comments.all %}
+        <p><strong>{{ comment.author }}</strong>: {{ comment.content }}</p>
+    {% endfor %}
+    {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            <textarea name="content"></textarea>
+            <button type="submit">Comentar</button>
+        </form>
+    {% else %}
+        <p><a href="/accounts/login/">Inicia sesión</a> para comentar.</p>
+    {% endif %}
+{% endblock %}
